@@ -1,0 +1,78 @@
+<<echo=FALSE, cache=FALSE>>=
+set_parent('tesina.Rnw')
+@
+
+\section{Distribuciones A Priori}
+
+Las creencias previas juegan un papel escencial en la estadítica bayesiana. La filosofía del enfoque bayesiano se centra en suponer de una distribución de probabilidad que refleja el grado de creencia sobre diferentes hipótesis: \emph{distribución a priori}(o prior). En el caso de un modelo parámetrico; es la creencia sobre combinaciones de diferentes valores paramétricos(usualmente contínuos). A partir del teorema de Bayes encontramos la probabilidad de estas combinaciones dados los datos observados: \emph{distribución a posteriori}(o posterior).
+
+Existe una crítica sobre la subjetividad inherente del análisis bayesiano por las distribuciones a priori; fundada en el hecho de que diferentes distrubuciones a priori llevan a diferentes conclusiones posteriores. Lo cual haría que los científicos discutieran sobre las conclusiones al ver un mismo conjunto de datos. 
+
+Sin embargo, esto último sucede cuando los datos son muy pobres; lo que significa que por observarlos las distribuciones a priori no cambian mucho. Conforme se tomen en consideración más datos, las creencias iniciales iran perdiendo valor y la distribución a posteriori tendrá la forma de la función de verosimilitud.
+
+Por otro lado, siempre será opción considerar distribuciones a priori poco informativas que representen poca(o nula) información sobre las combinaciones de parámetros. Esto hará que las distribuciones a posteriori tomen toda la forma de la verosimilitud. 
+
+\subsubsection{Elección de priors para la investigación actual}
+
+Hay tres posibilidades de priors a elegir:
+\begin{enumerate}
+  \item No informativos
+  \item Informados de acuerdo a investigaciones previas
+  \item Creencias fuertes sobre valores que desacreditan al modelo(cuando hay un modelo anidado)
+\end{enumerate}
+
+Hay ya una literatura sustancial sobre el tema de la estimación de los parámetros de la TP que nos permite considerar valores probables. 
+
+\susubsection{Booij's literature review}
+
+<<booij_review>>=
+booij<-matrix(c(
+.88, .88, 2.25,
+.22, NA, NA,
+.50, NA, NA,
+.39, .84, NA,
+.49, NA, NA,
+.89, .92, NA,
+.61, .61, NA,
+NA, NA, 1.43, 
+NA, .97, NA,
+.91, .96, NA,
+.68, .74, 3.2, 
+1.01, 1.05, NA,
+.72, .73, 2.54, 
+.81, .80, 1.07, 
+.71, .72, 1.38, 
+.86, 1.06, 2.61
+),ncol = 3,nrow = 16,byrow = T)
+
+colMeans(booij,na.rm = T)
+
+# con los datos del propio booij y neilsson,..., y wagenmakers
+booij_2<-matrix(c(
+.88, .88, 2.25,
+.22, NA, NA,
+.50, NA, NA,
+.39, .84, NA,
+.49, NA, NA,
+.89, .92, NA,
+.61, .61, NA,
+NA, NA, 1.43, 
+NA, .97, NA,
+.91, .96, NA,
+.68, .74, 3.2, 
+1.01, 1.05, NA,
+.72, .73, 2.54, 
+.81, .80, 1.07, 
+.71, .72, 1.38, 
+.86, 1.06, 2.61,
+.859, .826, 1.576, #booij's
+.90, .90, 1.02 #neilsson, ... y wagenmakers
+),ncol = 3,nrow = 18,byrow = T)
+
+colMeans(booij_2,na.rm = T)
+mean(c(colMeans(booij_2,na.rm = T)[1],colMeans(booij_2,na.rm = T)[2]))
+alpha_mean_prior<- mean(c(colMeans(booij_2,na.rm = T)[1],colMeans(booij_2,na.rm = T)[2]))
+lambda_mean_prior<- colMeans(booij_2,na.rm = T)[3]
+@
+
+
